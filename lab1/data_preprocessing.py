@@ -21,7 +21,7 @@ def process_folder(folder, scaler=None, fit_scaler=False):
     return scaler, files
 
 def main():
-    # Обучаем StandardScaler на объединенных данных из train
+    # Обучаем StandardScaler на объединённых данных из train
     scaler, train_files = process_folder("train", fit_scaler=True)
     if scaler is None:
         print("Нет данных для обучения.")

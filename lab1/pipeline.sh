@@ -1,11 +1,10 @@
 #!/bin/bash
 set -e  # Прерывание выполнения при ошибке
 
-# Устанавливаем необходимые пакеты (при условии, что используется pip)
+# Устанавливаем необходимые пакеты
 pip install --upgrade pip
 pip install numpy pandas scikit-learn
 
-# Запуск этапов конвейера
 echo "Запуск этапа 1: создание данных..."
 python data_creation.py
 
