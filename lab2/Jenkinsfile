@@ -2,19 +2,21 @@ pipeline {
     agent any
 
     stages {
+        stage('Setup Virtual Environment and Install Dependencies') {
+            steps {
+                sh 'python3 -m venv venv'
+                sh 'python3 -m pip install --upgrade pip'
+                sh '. venv/bin/activate && pip install -r lab2/requirements.txt'
+                }
+        }
+                
         stage('Checkout Code') {
             steps {
                 git url: 'https://github.com/alex01shappard/Labs_for_MLops.git', branch: 'main'
             }
         }
         
-        stage('Install Dependencies') {
-            steps {
-                sh 'python3 -m pip install --upgrade pip'
-                sh 'pip install -r lab2/requirements.txt'
-            }
-        }
-        
+                
         stage('Data Processing') {
             steps {
                 sh 'python3 lab2/scripts/data_processing.py'
