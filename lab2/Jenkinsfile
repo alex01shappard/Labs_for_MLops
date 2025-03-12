@@ -10,26 +10,26 @@ pipeline {
         
         stage('Install Dependencies') {
             steps {
-                sh 'python -m pip install --upgrade pip'
+                sh 'python3 -m pip install --upgrade pip'
                 sh 'pip install -r lab2/requirements.txt'
             }
         }
         
         stage('Data Processing') {
             steps {
-                sh 'python lab2/scripts/data_processing.py'
+                sh 'python3 lab2/scripts/data_processing.py'
             }
         }
         
         stage('Model Training') {
             steps {
-                sh 'python lab2/scripts/model_training.py'
+                sh 'python3 lab2/scripts/model_training.py'
             }
         }
         
         stage('Model Testing') {
             steps {
-                sh 'python lab2/scripts/model_testing.py'
+                sh 'python3 lab2/scripts/model_testing.py'
             }
         }
     }
