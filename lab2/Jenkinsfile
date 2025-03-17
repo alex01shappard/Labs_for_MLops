@@ -19,8 +19,7 @@ pipeline {
                 '''
                 }
         }
-                
-                
+                       
         stage('Data Processing') {
             steps {
                 sh '''
