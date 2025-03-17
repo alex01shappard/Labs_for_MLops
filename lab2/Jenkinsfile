@@ -4,10 +4,9 @@ pipeline {
         stage('Checkout Code') {
             steps {
                 echo "Клонирование репозитория..."
-                git url: 'https://github.com/alex01shappard/Labs_for_MLops.git', branch: 'main'
+                git url: 'https://github.com/alex01shappard/Labs_for_MLops.git', branch: 'new_pipeline'
             }
         }
-        
         stage('Setup Virtual Environment and Install Dependencies') {
             steps {
                 echo "Настройка виртуального окружения и установка зависимостей..."
@@ -19,31 +18,31 @@ pipeline {
                 '''
             }
         }
-                
         stage('Data Processing') {
             steps {
                 echo "Запуск обработки данных..."
                 sh '''
+                sleep 5
                 . lab2/venv/bin/activate 
                 python3 lab2/scripts/data_processing.py
                 '''
             }
         }
-        
         stage('Model Training') {
             steps {
                 echo "Запуск обучения модели..."
                 sh '''
+                sleep 5
                 . lab2/venv/bin/activate
                 python3 lab2/scripts/model_training.py
                 '''
             }
         }
-        
         stage('Model Testing') {
             steps {
                 echo "Запуск тестирования модели..."
                 sh '''
+                sleep 5
                 . lab2/venv/bin/activate
                 python3 lab2/scripts/model_testing.py
                 '''
