@@ -1,0 +1,50 @@
+pipeline {
+    agent any
+
+    stages {
+
+        stage('Checkout Code') {
+            steps {
+                git url: 'https://github.com/alex01shappard/Labs_for_MLops.git', branch: 'main'
+            }
+        }
+        
+        stage('Setup Virtual Environment and Install Dependencies') {
+            steps {
+                sh '''
+                python3 -m venv lab2/venv
+                . lab2/venv/bin/activate
+                python3 -m pip install --upgrade pip
+                pip install -r lab2/requirements.txt
+                '''
+                }
+        }
+                       
+        stage('Data Processing') {
+            steps {
+                sh '''
+                . lab2/venv/bin/activate 
+                python3 lab2/scripts/data_processing.py
+                '''
+            }
+        }
+        
+        stage('Model Training') {
+            steps {
+                sh '''
+                . lab2/venv/bin/activate
+                python3 lab2/scripts/model_training.py
+                '''
+            }
+        }
+        
+        stage('Model Testing') {
+            steps {
+                sh '''
+                . lab2/venv/bin/activate
+                python3 lab2/scripts/model_testing.py
+                '''
+            }
+        }
+    }
+}
