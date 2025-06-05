@@ -18,8 +18,7 @@ pipeline {
                     branches: [[name: "*/${env.BRANCH_NAME}"]],
                     extensions: [],
                     userRemoteConfigs: [[
-                        url: 'https://github.com/alex01shappard/Labs_for_MLops',
-                        credentialsId: 'github-credentials'
+                        url: 'https://github.com/alex01shappard/Labs_for_MLops'
                     ]]
                 ])
         }
