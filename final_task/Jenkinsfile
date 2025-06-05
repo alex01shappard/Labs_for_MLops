@@ -55,12 +55,9 @@ pipeline {
                         
                         # Важная настройка для работы с большими файлами
                         dvc remote modify ${DVC_REMOTE} gdrive_acknowledge_abuse true
-
-                        # Формируем JSON в компактном формате без переносов
-                        JSON_DATA="{\\\"client_id\\\":\\\"$CLIENT_ID\\\",\\\"client_secret\\\":\\\"$CLIENT_SECRET\\\"}"
-                
+                                        
                         # Передаем данные в правильном формате
-                        dvc remote modify ${DVC_REMOTE} --local gdrive_user_credentials_data "$JSON_DATA"
+                        dvc remote modify ${DVC_REMOTE} --local gdrive_user_credentials_data '{"client_id":"'"$CLIENT_ID"'","client_secret":"'"$CLIENT_SECRET"'"}'
                                              
                                                 
                     '''
