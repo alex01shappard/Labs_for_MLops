@@ -49,11 +49,13 @@ pipeline {
                         
                         # Инициализируем DVC с флагом --force
                         dvc init --no-scm -f
-
-                        dvc remote modify ${DVC_REMOTE} gdrive_acknowledge_abuse true                                    
+                                  
                         # Настройка remote без секретов
                         dvc remote add -d ${DVC_REMOTE} gdrive://${DVC_REMOTE_URL}                
                         
+                        # Важная настройка для работы с большими файлами
+                        dvc remote modify ${DVC_REMOTE} gdrive_acknowledge_abuse true
+
                         # Добавление секретов в ЛОКАЛЬНЫЙ конфиг
                         dvc remote modify ${DVC_REMOTE} --local gdrive_user_credentials_data '{
                             "client_id": "'"$CLIENT_ID"'",
