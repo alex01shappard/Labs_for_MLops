@@ -26,7 +26,7 @@ pipeline {
         stage('Установка venv & dependencies') {
             steps {
                 sh '''
-                python3 -m venv venv
+                python3 -m venv final_task/venv
                 . final_task/venv/bin/activate
                 pip install -r final_task/requirements.txt "dvc[gdrive]"
                 '''
