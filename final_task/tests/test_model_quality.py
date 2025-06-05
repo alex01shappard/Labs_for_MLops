@@ -71,7 +71,7 @@ def clean_data():
     Ожидает файл combined_prompts_balanced.csv в корне проекта.
     Возвращает tuple (texts, labels).
     """
-    df = pd.read_csv("/teamspace/studios/this_studio/combined_prompts_balanced.csv", encoding="utf-8")
+    df = pd.read_csv("tests/combined_prompts_balanced.csv", encoding="utf-8")
     texts = df["prompt"].astype(str).tolist()
     labels = df["label"].astype(int).tolist()
     return texts, labels
@@ -83,7 +83,7 @@ def noisy_data():
     Ожидает файл combined_prompts_balanced_noisy.csv в корне проекта.
     Возвращает tuple (texts, labels).
     """
-    df = pd.read_csv("/teamspace/studios/this_studio/combined_prompts_balanced_noisy.csv", encoding="utf-8")
+    df = pd.read_csv("tests/combined_prompts_balanced_noisy.csv", encoding="utf-8")
     texts = df["prompt"].astype(str).tolist()
     labels = df["label"].astype(int).tolist()
     return texts, labels
