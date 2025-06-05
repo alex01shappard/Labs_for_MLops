@@ -4,7 +4,7 @@ pipeline {
     environment {
         DVC_REMOTE_URL = '1Za2nJqOSCv4RJGimGoUIfvwbjdXp3q_U' // URL хранилища
         DVC_REMOTE = 'data'  // Имя удаленного хранилища в .dvc/config
-        DOCKER_IMAGE = "prompt_defender_app:${env.BRANCH_NAME}-${env.BUILD_NUMBER}"
+        DOCKER_IMAGE = "prompt_defender_app:jenkins-${env.BUILD_NUMBER}"
         SERVER_PORT = "8080"
         SERVER_URL = "http://127.0.0.1:${SERVER_PORT}"
     }
@@ -15,7 +15,7 @@ pipeline {
            steps {
                checkout([
                     $class: 'GitSCM',
-                    branches: [[name: "*/${env.BRANCH_NAME}"]],
+                    branches: [[name: "*/jenkins"]],
                     extensions: [],
                     userRemoteConfigs: [[
                         url: 'https://github.com/alex01shappard/Labs_for_MLops'
