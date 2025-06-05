@@ -49,17 +49,23 @@ pipeline {
                         
                         # Инициализируем DVC с флагом --force
                         dvc init --no-scm -f
-                                  
+                        
+                        # Создаем временный файл учетных данных
+                        mkdir -p .dvc/local
+                        cat > .dvc/local/gdrive-credentials.json <<EOF
+                        {"client_id":"$CLIENT_ID","client_secret":"$CLIENT_SECRET"}
+                        EOF
+
                         # Настройка remote без секретов
                         dvc remote add -d ${DVC_REMOTE} gdrive://${DVC_REMOTE_URL}                
                         
+                        # Передаем данные в правильном формате
+                        dvc remote modify ${DVC_REMOTE} --local gdrive_user_credentials_data gdrive-credentials.json
                         # Важная настройка для работы с большими файлами
                         dvc remote modify ${DVC_REMOTE} gdrive_acknowledge_abuse true
                                         
-                        # Передаем данные в правильном формате
-                        dvc remote modify ${DVC_REMOTE} --local gdrive_user_credentials_data '{"client_id":"'"$CLIENT_ID"'","client_secret":"'"$CLIENT_SECRET"'"}'
-                                             
-                                                
+                        #Проверка конфигурации
+                        dvc remote -v                      
                     '''
                 }
             }
