@@ -43,7 +43,14 @@ pipeline {
                     sh '''
                         . final_task/venv/bin/activate
                         cd final_task
-                        dvc init --no-scm                                       
+                        
+                        # Удаляем существующую конфигурацию DVC, если есть
+                        rm -rf .dvc 2>/dev/null || true
+                        
+                        # Инициализируем DVC с флагом --force
+                        dvc init --no-scm -f
+
+                        dvc remote modify ${DVC_REMOTE} gdrive_acknowledge_abuse true                                    
                         # Настройка remote без секретов
                         dvc remote add -d ${DVC_REMOTE} gdrive://${DVC_REMOTE_URL}                
                         
