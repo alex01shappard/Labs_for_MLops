@@ -53,14 +53,14 @@ pipeline {
                         
                         # Создаем временный файл учетных данных
                         mkdir -p .dvc/local
-                        cat > .dvc/local/gdrive-credentials.json <<EOF
+                        cat > .dvc/local/gdrive-credentials.json <<'EOF'
                         {"client_id":"$CLIENT_ID","client_secret":"$CLIENT_SECRET"}
                         EOF
 
                         # Проверяем, что файл создан
                         if [ ! -f .dvc/local/gdrive-credentials.json ]; then
-                        echo "Ошибка: Файл gdrive-credentials.json не создан!"
-                        exit 1
+                            echo "Ошибка: Файл gdrive-credentials.json не создан!"
+                            exit 1
                         fi
 
                         # Настройка remote без секретов
