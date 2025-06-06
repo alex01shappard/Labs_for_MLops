@@ -37,7 +37,7 @@ pipeline {
         stage('Подготовка DVC') {
             steps {
                 withCredentials([
-                    string(credentialsId: 'GDRIVE_CREDENTIALS_JSON', variable: 'GDRIVE_CREDENTIALS_DATA')
+                    string(credentialsId: 'GDRIVE_SERVICE_ACCOUNT_JSON', variable: 'GOOGLE_APPLICATION_CREDENTIALS')
                 ]) {
                     sh '''
                         set -e #Останавливаем скрипт при любой ошибке
@@ -55,7 +55,7 @@ pipeline {
                         dvc remote add -d ${DVC_REMOTE} gdrive://${DVC_REMOTE_URL}                
                         
                         # Передаем данные в правильном формате
-                        dvc remote modify ${DVC_REMOTE} --local gdrive_user_credentials_file $(pwd)/.dvc/local/gdrive-credentials.json
+                        dvc remote modify ${DVC_REMOTE} --local gdrive_service_account_json_file_path $GOOGLE_APPLICATION_CREDENTIALS
                         # Важная настройка для работы с большими файлами
                         dvc remote modify ${DVC_REMOTE} gdrive_acknowledge_abuse true
                                         
