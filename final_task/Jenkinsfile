@@ -5,7 +5,7 @@ pipeline {
         DVC_REMOTE_URL = '1qZ0lTrXhHty1l6r-jNCR2ZdR40atHz0v' // URL хранилища
         DVC_REMOTE = 'data_for_jenkins'  // Имя удаленного хранилища в .dvc/config
         DOCKER_IMAGE = "prompt_defender_app:jenkins-${env.BUILD_NUMBER}"
-        SERVER_PORT = "8080"
+        SERVER_PORT = "8000"
         SERVER_URL = "http://127.0.0.1:${SERVER_PORT}"
         GOOGLE_APPLICATION_CREDENTIALS = credentials('GDRIVE_SERVICE_ACCOUNT_JSON')
     }
@@ -91,9 +91,10 @@ pipeline {
                     . final_task/venv/bin/activate
                     cd final_task
                     # Запуск в фоновом режиме с сохранением PID
-                    nohup uvicorn main:app --reload --port ${SERVER_PORT} > server.log 2>&1 &
+                    nohup uvicorn main:app --host 0.0.0.0 --port ${SERVER_PORT} > server.log 2>&1 &
                     echo $! > server.pid
-                    sleep 15 # Ожидание инициализации сервера
+                    sleep 30 # Ожидание инициализации сервера
+                    cat server.log
                 '''
             }
         }
@@ -103,7 +104,14 @@ pipeline {
                 sh '''
                     #!/bin/bash
                     . final_task/venv/bin/activate
-                    cd final_task     
+                    cd final_task
+
+                    # Проверка доступности сервера
+                    until curl -s "${SERVER_URL}/check_prompt/?prompt_input=test" > /dev/null; do
+                        echo "Ожидание сервера..."
+                        sleep 5
+                    done
+
                     # Тест 1: Regular запрос (должен вернуть "result":0)
                     RESPONSE=$(curl -s '${SERVER_URL}/check_prompt/?prompt_input=%22What%20is%20the%20weather%20today?%22')
                     echo "$RESPONSE"
