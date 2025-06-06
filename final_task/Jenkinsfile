@@ -37,8 +37,7 @@ pipeline {
         stage('Подготовка DVC') {
             steps {
                 withCredentials([
-                    string(credentialsId: 'GDRIVE_CLIENT_ID', variable: 'CLIENT_ID'),
-                    string(credentialsId: 'GDRIVE_CLIENT_SECRET', variable: 'CLIENT_SECRET')
+                    string(credentialsId: 'GDRIVE_CREDENTIALS_JSON', variable: 'GDRIVE_CREDENTIALS_DATA')
                 ]) {
                     sh '''
                         set -e #Останавливаем скрипт при любой ошибке
@@ -51,25 +50,12 @@ pipeline {
                         # Инициализируем DVC с флагом --force
                         dvc init --no-scm -f
                         
-                        # Создание директории для учётных данных
-                        mkdir -p .dvc/local
-
-                        #Сохраняем учетные данные вручную через echo
-                        echo '{"client_id":"'$CLIENT_ID'","client_secret":"'$CLIENT_SECRET'"}' \
-                            > .dvc/local/gdrive-credentials.json
-
-                        # Проверяем, что файл создан
-                        if [ ! -f .dvc/local/gdrive-credentials.json ]; then
-                            echo "Ошибка: Файл gdrive-credentials.json не создан!"
-                            exit 1
-                        fi
-
                         # Настройка remote без секретов
                         echo "Добавляю remote"
                         dvc remote add -d ${DVC_REMOTE} gdrive://${DVC_REMOTE_URL}                
                         
                         # Передаем данные в правильном формате
-                        dvc remote modify ${DVC_REMOTE} --local gdrive_user_credentials_data $(pwd)/.dvc/local/gdrive-credentials.json
+                        dvc remote modify ${DVC_REMOTE} --local gdrive_user_credentials_file $(pwd)/.dvc/local/gdrive-credentials.json
                         # Важная настройка для работы с большими файлами
                         dvc remote modify ${DVC_REMOTE} gdrive_acknowledge_abuse true
                                         
