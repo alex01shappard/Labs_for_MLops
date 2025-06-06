@@ -91,7 +91,7 @@ pipeline {
                     . final_task/venv/bin/activate
                     cd final_task
                     # Запуск в фоновом режиме с сохранением PID
-                    nohup uvicorn main:app --host 0.0.0.0 --port ${SERVER_PORT} > server.log 2>&1 &
+                    nohup uvicorn main:app --host 127.0.0.1 --port ${SERVER_PORT} > server.log 2>&1 &
                     echo $! > server.pid
                     sleep 30 # Ожидание инициализации сервера
                     cat server.log
