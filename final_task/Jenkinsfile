@@ -91,8 +91,19 @@ pipeline {
                     . final_task/venv/bin/activate
                     cd final_task
                     # Запуск в фоновом режиме с сохранением PID
-                    nohup uvicorn main:app --host 127.0.0.1 --port ${SERVER_PORT} > server.log 2>&1 &
+                    nohup uvicorn main:app --host 0.0.0.0 --port ${SERVER_PORT} > server.log 2>&1 &
                     echo $! > server.pid
+
+                    # Проверяем, запустился ли сервер
+                    for i in {1..10}; do
+                        echo "Попытка $i: Ожидание сервера..."
+                        if curl -s http://127.0.0.1:${SERVER_PORT}/check_prompt/?prompt_input=test | grep -q "result"; then
+                            echo "Сервер запущен"
+                            break
+                        fi
+                        sleep 5
+                    done
+
                     sleep 30 # Ожидание инициализации сервера
                     cat server.log
                 '''
