@@ -150,11 +150,14 @@ pipeline {
 
         stage('Сборка Docker образа') {
             steps {
-                script {
-                    docker.build("${env.DOCKER_IMAGE}", "./final_task")
-                }
+                sh '''
+                    cd final_task
+                    docker build -t ${DOCKER_IMAGE} .
+                '''
             }
         }
+    }
+}
     }
     post {
         always {
