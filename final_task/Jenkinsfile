@@ -41,6 +41,7 @@ pipeline {
                     string(credentialsId: 'GDRIVE_CLIENT_SECRET', variable: 'CLIENT_SECRET')
                 ]) {
                     sh '''
+                        set -e #Останавливаем скрипт при любой ошибке
                         . final_task/venv/bin/activate
                         cd final_task
                         
@@ -56,7 +57,14 @@ pipeline {
                         {"client_id":"$CLIENT_ID","client_secret":"$CLIENT_SECRET"}
                         EOF
 
+                        # Проверяем, что файл создан
+                        if [ ! -f .dvc/local/gdrive-credentials.json ]; then
+                        echo "Ошибка: Файл gdrive-credentials.json не создан!"
+                        exit 1
+                        fi
+
                         # Настройка remote без секретов
+                        echo "Добавляю remote"
                         dvc remote add -d ${DVC_REMOTE} gdrive://${DVC_REMOTE_URL}                
                         
                         # Передаем данные в правильном формате
