@@ -37,7 +37,7 @@ pipeline {
 
         stage('Подготовка DVC') {
             steps {
-                {
+                
                     sh '''
                         set -e #Останавливаем скрипт при любой ошибке
                         . final_task/venv/bin/activate
@@ -73,7 +73,7 @@ pipeline {
                     '''
                 }
             }
-        }
+        
                        
         stage('Загрузка данных') {
             steps {
