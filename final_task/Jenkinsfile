@@ -65,7 +65,10 @@ pipeline {
                         dvc remote modify ${DVC_REMOTE} gdrive_acknowledge_abuse true
                                         
                         #Проверка конфигурации
-                        dvc remote -v                      
+                        echo "Remote list:"
+                        dvc remote list
+                        echo "Config content:"
+                        cat .dvc/config                      
                     '''
                 }
             }
