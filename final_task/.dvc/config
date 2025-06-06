@@ -1,6 +1,6 @@
 [core]
-    remote = data
-['remote "data"']
-    url = gdrive://1Za2nJqOSCv4RJGimGoUIfvwbjdXp3q_U
+    remote = data_for_jenkins
+['remote "data_for_jenkins"']
+    url = gdrive://1qZ0lTrXhHty1l6r-jNCR2ZdR40atHz0v
     gdrive_acknowledge_abuse = true
     
