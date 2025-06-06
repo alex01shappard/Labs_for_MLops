@@ -50,6 +50,12 @@ pipeline {
                         # Инициализируем DVC с флагом --force
                         dvc init --no-scm -f
                         
+                          # Проверка наличия файла кредов
+                        if [ ! -f "$GOOGLE_APPLICATION_CREDENTIALS" ]; then
+                            echo "Ошибка: Файл кредов не найден по пути: $GOOGLE_APPLICATION_CREDENTIALS"
+                            exit 1
+                        fi
+
                         # Настройка remote без секретов
                         echo "Добавляю remote"
                         dvc remote add -d ${DVC_REMOTE} gdrive://${DVC_REMOTE_URL}                
