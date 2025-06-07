@@ -8,7 +8,6 @@ COPY requirements.txt /workdir/requirements.txt
 
 # Устанавливаем зависимости (будет кэшироваться, если requirements.txt не изменился)
 RUN pip install --no-cache-dir -r requirements.txt "dvc[gdrive]"
-RUN dvc pull -r data
 
 # Копируем оставшиеся файлы проекта
 COPY . /workdir
