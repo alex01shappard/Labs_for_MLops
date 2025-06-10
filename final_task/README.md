@@ -61,8 +61,8 @@ final_task/
 
       # Настройка клиента (если используется свой)
       dvc remote modify myremote gdrive_acknowledge_abuse true
-      dvc remote modify gdrive.client_id "<ваш_client_id>"
-      dvc remote modify gdrive.client_secret "<ваш_client_secret>"
+      dvc remote modify myremote gdrive_client_id "<ваш_client_id>"
+      dvc remote modify myremote gdrive_client_secret "<ваш_client_secret>"
 
       # Добавление данных
       dvc add data/
